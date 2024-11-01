@@ -15,7 +15,10 @@
 		"test:unit": "vitest"
 	},
 	"dependencies": {
-		"@skillbridge/ui": "workspace:*"
+		"@skillbridge/ui": "workspace:*",
+		"@hono/zod-validator": "0.4.1",
+		"hono": "4.6.8",
+		"zod": "3.23.8"
 	},
 	"devDependencies": {
 		"@playwright/test": "1.48.2",
