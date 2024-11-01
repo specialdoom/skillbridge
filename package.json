@@ -1,5 +1,6 @@
 {
   "name": "skillbridge",
+  "description": "A skills-based volunteering platform",
   "version": "0.0.0",
   "private": true,
   "scripts": {
