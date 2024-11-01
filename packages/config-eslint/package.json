@@ -6,9 +6,19 @@
     "@typescript-eslint/parser": "8.12.2",
     "eslint-config-prettier": "9.1.0",
     "eslint-config-turbo": "2.2.3",
-    "eslint-plugin-svelte": "2.46.0"
+    "eslint-plugin-svelte": "2.46.0",
+    "globals": "15.11.0"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "peerDependencies": {
+    "eslint": ">=9"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "typescript-eslint": "^8.12.2"
+  },
+  "type": "module",
+  "main": "index.js"
 }
