@@ -17,5 +17,8 @@
   "packageManager": "pnpm@9.12.3",
   "engines": {
     "node": ">=22"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.27.9"
   }
 }
