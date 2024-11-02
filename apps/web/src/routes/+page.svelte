@@ -1,1 +1,1 @@
-Welcome to skillbridge
+Welcome to skillbridge <a href="/logout">Logout</a>

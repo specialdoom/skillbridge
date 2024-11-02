@@ -5,4 +5,7 @@ export interface Config {
 
 interface ApiConfig {
 	origin: string;
+	postgres: {
+		url: string;
+	};
 }
