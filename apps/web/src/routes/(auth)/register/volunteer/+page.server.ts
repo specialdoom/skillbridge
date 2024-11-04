@@ -2,10 +2,12 @@ import { StatusCodes } from "$lib/constants/status-codes";
 import { fail, redirect, type Actions } from "@sveltejs/kit";
 
 export const actions: Actions = {
-	async default({ request, locals, cookies }) {
+	default: async ({ request, locals }) => {
 		const formData = await request.formData();
+
 		const email = formData.get("email")?.toString();
 		const password = formData.get("password")?.toString();
+		const confirmPassword = formData.get("confirmPassword");
 
 		if (!email || !password) {
 			return fail(StatusCodes.BAD_REQUEST, {
@@ -13,7 +15,13 @@ export const actions: Actions = {
 			});
 		}
 
-		const { error, data } = await locals.api.auth.login
+		if (password !== confirmPassword) {
+			return fail(StatusCodes.BAD_REQUEST, {
+				error: "Passwords do not match"
+			});
+		}
+
+		const { error } = await locals.api.auth.register.volunteer
 			.$post({
 				json: {
 					email,
@@ -24,20 +32,10 @@ export const actions: Actions = {
 
 		if (error) {
 			return fail(StatusCodes.BAD_REQUEST, {
-				error: error?.error?.issues[0].message
+				error
 			});
 		}
 
-		if (!data) {
-			return fail(StatusCodes.BAD_REQUEST, {
-				error: "Something went wrong"
-			});
-		}
-
-		console.log('[login action] setting session');
-
-		cookies.set('session_id', data.sessionCookie.value, { path: '/' });
-
-		return redirect(StatusCodes.SEE_OTHER, '/');
+		return redirect(StatusCodes.SEE_OTHER, "/login");
 	}
 };

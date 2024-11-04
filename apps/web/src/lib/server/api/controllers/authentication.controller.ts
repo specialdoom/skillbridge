@@ -15,25 +15,26 @@ export class AuthenticationController extends Controler {
 
 	routes() {
 		return this.controller
-			.get('/me', async (c) => {
+			.get("/me", async (c) => {
 				const user = c.var.user;
 				return c.json({ user: user });
 			})
-			.post('/login', zValidator('json', loginDto), async (c) => {
-				const { email, password } = c.req.valid('json');
+			.post("/login", zValidator("json", loginDto), async (c) => {
+				const { email, password } = c.req.valid("json");
 
 				const sessionCookie = await this.authenticationService.login(email, password);
 
 				return c.json({ sessionCookie });
 			})
-			.post('/register', zValidator('json', registerDto), async (c) => {
-				const { email, password } = c.req.valid('json');
+			.post("/register/volunteer", zValidator("json", registerDto), async (c) => {
+				const { email, password } = c.req.valid("json");
 
-				const user = await this.authenticationService.register(email, password);
+				const user = await this.authenticationService.registerVolunteer(email, password);
 
 				return c.json({ user });
 			})
-			.post('/logout', requireAuth, async (c) => {
+
+			.post("/logout", requireAuth, async (c) => {
 				const sessionId = c.var.session.id;
 				await this.authenticationService.logout(sessionId);
 				return c.json({ status: 'success' });
