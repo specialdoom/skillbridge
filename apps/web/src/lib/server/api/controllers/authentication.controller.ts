@@ -1,11 +1,11 @@
-import { inject, injectable } from 'tsyringe';
-import { AuthenticationService } from '../services/authentication.service';
-import { Controler } from '../common/types/controller';
-import { zValidator } from '@hono/zod-validator';
-import { registerDto } from '../dtos/register.dto';
-import { loginDto } from '../dtos/login.dto';
-import { requireAuth } from '../middlewares/require-auth.middleware';
-import { verifyDto } from '../dtos/verify.dto';
+import { inject, injectable } from "tsyringe";
+import { AuthenticationService } from "../services/authentication.service";
+import { Controler } from "../common/types/controller";
+import { zValidator } from "@hono/zod-validator";
+import { registerDto } from "../dtos/register.dto";
+import { loginDto } from "../dtos/login.dto";
+import { requireAuth } from "../middlewares/require-auth.middleware";
+import { verifyDto } from "../dtos/verify.dto";
 
 @injectable()
 export class AuthenticationController extends Controler {
@@ -37,14 +37,14 @@ export class AuthenticationController extends Controler {
 			.post("/logout", requireAuth, async (c) => {
 				const sessionId = c.var.session.id;
 				await this.authenticationService.logout(sessionId);
-				return c.json({ status: 'success' });
+				return c.json({ status: "success" });
 			})
-			.post('/verify', zValidator('json', verifyDto), async (c) => {
-				const { sessionId } = c.req.valid('json');
+			.post("/verify", zValidator("json", verifyDto), async (c) => {
+				const { sessionId } = c.req.valid("json");
 
 				const { user, session } = await this.authenticationService.verify(sessionId);
 
-				console.log('[auth controller]', { user, session });
+				if (!user && !session) return c.json({ success: false });
 
 				return c.json({ success: true });
 			});

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { Button } from '$components/button';
-	import * as Card from '$components/card';
-	import { Input } from '$components/input';
-	import { Label } from '$components/label';
-	import CircleAlert from 'lucide-svelte/icons/circle-alert';
-	import * as Alert from '$components/alert';
+	import { Button } from "$components/button";
+	import * as Card from "$components/card";
+	import { Input } from "$components/input";
+	import { Label } from "$components/label";
+	import CircleAlert from "lucide-svelte/icons/circle-alert";
+	import * as Alert from "$components/alert";
 
 	let { form } = $props();
 </script>
@@ -38,8 +38,8 @@
 				<Button variant="outline" class="w-full" disabled>Login with Google (Coming soon)</Button>
 			</form>
 			<div class="mt-4 text-center text-sm">
-				Don't have an account?
-				<a href="/register" class="underline"> Register </a>
+				Are you a volunteer?
+				<a href="/register/volunteer" class="underline"> Register here</a>
 			</div>
 		</Card.Content>
 	</Card.Root>
