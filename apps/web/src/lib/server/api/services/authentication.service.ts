@@ -50,6 +50,10 @@ export class AuthenticationService {
 	}
 
 	async logout(sessionId: string) {
-		this.luciaService.lucia.invalidateSession(sessionId);
+		await this.luciaService.lucia.invalidateSession(sessionId);
+	}
+
+	async verify(sessionId: string) {
+		return await this.luciaService.lucia.validateSession(sessionId);
 	}
 }

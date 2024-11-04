@@ -6,5 +6,5 @@ export const load = async ({ locals, cookies }) => {
 
 	cookies.delete('session_id', { path: '/' });
 
-	return redirect(StatusCodes.PERMANENT_REDIRECT, '/login');
+	return redirect(StatusCodes.SEE_OTHER, '/login');
 };

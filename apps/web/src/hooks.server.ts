@@ -41,21 +41,35 @@ const apiClient: Handle = async ({ event, resolve }) => {
 };
 
 const session: Handle = async ({ event, resolve }) => {
-	console.log('session hook');
+	console.log('[session hook] checking session');
 
 	// Skip api and auth routes
 	if (isApiRoute(event.route.id) || isAuthRoute(event.route.id)) {
+		console.log('[session hook] skiping for auth and api routes');
 		const response = await resolve(event);
 		return response;
 	}
 
 	const session = event.cookies.get('session_id');
 
-	console.log('user', session, event.route.id);
-
 	if (!session) {
+		console.log('[session hook] session does not exist');
 		throw redirect(StatusCodes.TEMPORARY_REDIRECT, '/login');
 	}
+
+	console.log('[session hook] validating session');
+
+	const { data } = await event.locals.api.auth.verify
+		.$post({ json: { sessionId: session } })
+		.then(parseApiResponse);
+
+	if (!data?.success) {
+		console.log('[session hook] invalid session');
+
+		throw redirect(StatusCodes.TEMPORARY_REDIRECT, '/login');
+	}
+
+	console.log('[session hook] valid session');
 
 	const response = await resolve(event);
 	return response;

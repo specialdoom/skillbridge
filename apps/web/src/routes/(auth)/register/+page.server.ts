@@ -30,12 +30,14 @@ export const actions: Actions = {
 			})
 			.then(locals.parseApiResponse);
 
+		console.log(error);
+
 		if (error) {
 			return fail(StatusCodes.BAD_REQUEST, {
 				error
 			});
 		}
 
-		return redirect(StatusCodes.TEMPORARY_REDIRECT, '/login');
+		return redirect(StatusCodes.SEE_OTHER, '/login');
 	}
 };

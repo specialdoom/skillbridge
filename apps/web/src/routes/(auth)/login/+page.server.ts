@@ -24,7 +24,7 @@ export const actions: Actions = {
 
 		if (error) {
 			return fail(StatusCodes.BAD_REQUEST, {
-				error
+				error: error?.error?.issues[0].message
 			});
 		}
 
@@ -34,8 +34,10 @@ export const actions: Actions = {
 			});
 		}
 
+		console.log('[login action] setting session', { data });
+
 		cookies.set('session_id', data.sessionCookie.value, { path: '/' });
 
-		return redirect(StatusCodes.PERMANENT_REDIRECT, '/');
+		return redirect(StatusCodes.SEE_OTHER, '/');
 	}
 };
