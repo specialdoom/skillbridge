@@ -51,17 +51,20 @@ export class AuthenticationController extends Controler {
 
 				return c.json({ message: "ok" });
 			})
-			.post("/register/volunteer", zValidator("json", registerDto), async (c) => {
+			.post("/register", zValidator("json", registerDto), async (c) => {
 				const { email, password } = c.req.valid("json");
+				const role = c.req.query("role") as "volunteer" | "manager";
 
-				const user = await this.authenticationService.registerVolunteer(email, password);
+				console.log("[auth controller] registering user with role", { role });
+				const user = await this.authenticationService.register(email, password, role);
 
 				return c.json({ user });
 			})
-
 			.post("/logout", requireAuth, async (c) => {
 				const sessionId = c.var.session.id;
+
 				await this.authenticationService.logout(sessionId);
+
 				return c.json({ status: "success" });
 			})
 			.post("/verify", async (c) => {

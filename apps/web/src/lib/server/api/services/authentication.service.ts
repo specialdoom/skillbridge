@@ -3,7 +3,7 @@ import { LuciaService } from "./lucia.service";
 import { BadRequest } from "../common/exceptions";
 import { Scrypt } from "lucia";
 import { UsersRepository } from "../repositories/users.repository";
-import { VolunteersRepository } from "../repositories/volunteers.repository";
+import { OrganizationsRepository } from "../repositories/organization.repository";
 import { LoggerService } from "./logger.service";
 
 @injectable()
@@ -11,7 +11,8 @@ export class AuthenticationService {
 	constructor(
 		@inject(LuciaService) private readonly luciaService: LuciaService,
 		@inject(UsersRepository) private readonly usersRepository: UsersRepository,
-		@inject(VolunteersRepository) private readonly volunteersRepository: VolunteersRepository,
+		@inject(OrganizationsRepository)
+		private readonly organizationsRepository: OrganizationsRepository,
 		@inject(LoggerService) private readonly loggerService: LoggerService
 	) {}
 
@@ -40,7 +41,13 @@ export class AuthenticationService {
 		return session;
 	}
 
-	async register(email: string, password: string) {
+	async register(
+		email: string,
+		password: string,
+		role: "volunteer" | "manager",
+		name: string = "",
+		description: string = ""
+	) {
 		const existingUser = await this.usersRepository.findOneByEmail(email);
 
 		if (existingUser) {
@@ -49,33 +56,25 @@ export class AuthenticationService {
 
 		const hashedPassword = await new Scrypt().hash(password);
 
+		let organizationId: string | null = null;
+
+		if (role === "manager") {
+			const organization = await this.organizationsRepository.create({
+				name,
+				description
+			});
+
+			organizationId = organization.id;
+		}
+
 		const user = await this.usersRepository.create({
 			email,
-			hashedPassword
+			hashedPassword,
+			role,
+			organizationId
 		});
 
 		return user;
-	}
-
-	async registerVolunteer(email: string, password: string) {
-		const existingUser = await this.usersRepository.findOneByEmail(email);
-
-		if (existingUser) {
-			throw BadRequest("User already exists");
-		}
-
-		const hashedPassword = await new Scrypt().hash(password);
-
-		const user = await this.usersRepository.create({
-			email,
-			hashedPassword
-		});
-
-		const volunteer = await this.volunteersRepository.create({
-			userId: user.id
-		});
-
-		return { user, volunteer };
 	}
 
 	async logout(sessionId: string) {

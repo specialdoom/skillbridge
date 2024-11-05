@@ -12,8 +12,8 @@
 <div class="flex h-screen w-full items-center justify-center px-4">
 	<Card.Root class="mx-auto max-w-sm">
 		<Card.Header>
-			<Card.Title class="text-2xl">Login</Card.Title>
-			<Card.Description>Enter your email below to login to your account</Card.Description>
+			<Card.Title class="text-2xl">Register</Card.Title>
+			<Card.Description>Enter your details below to register your account</Card.Description>
 			{#if form?.error}
 				<Alert.Root variant="destructive">
 					<CircleAlert class="size-4" />
@@ -21,27 +21,41 @@
 				</Alert.Root>
 			{/if}
 		</Card.Header>
+
 		<Card.Content>
 			<form class="grid gap-4" method="POST">
 				<div class="grid gap-2">
-					<Label for="email">Email</Label>
+					<Label for="name">Name</Label>
+					<Input id="name" placeholder="Meta" required name="name" />
+				</div>
+				<div class="grid gap-2">
+					<Label for="description">Description (optional)</Label>
+					<Input id="description" name="description" />
+				</div>
+				<div class="grid gap-2">
+					<Label for="email">Manager e-mail</Label>
 					<Input id="email" type="email" placeholder="m@example.com" required name="email" />
+					<span>This will also create an account with the specified email</span>
 				</div>
 				<div class="grid gap-2">
 					<div class="flex items-center">
 						<Label for="password">Password</Label>
-						<a href="##" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
 					</div>
 					<Input id="password" type="password" required name="password" />
 				</div>
-				<Button type="submit" class="w-full">Login</Button>
-				<Button variant="outline" class="w-full" disabled>Login with Google (Coming soon)</Button>
+				<div class="grid gap-2">
+					<div class="flex items-center">
+						<Label for="confirmPassword">Confirm password</Label>
+					</div>
+					<Input id="confirmPassword" type="password" required name="confirmPassword" />
+				</div>
+				<Button type="submit" class="w-full">Register</Button>
+				<Button variant="outline" class="w-full" disabled>Register with Google (Coming soon)</Button
+				>
 			</form>
 			<div class="mt-4 text-center text-sm">
-				Are you a volunteer?
-				<a href="/register/volunteer" class="underline"> Register here</a>
-				Register an organization?
-				<a href="/register/organization" class="underline"> Register here</a>
+				Already registered an organization?
+				<a href="/login" class="underline"> Login </a>
 			</div>
 		</Card.Content>
 	</Card.Root>

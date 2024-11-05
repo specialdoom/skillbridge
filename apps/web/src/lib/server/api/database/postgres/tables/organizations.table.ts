@@ -6,5 +6,5 @@ export const organizationsTable = pgTable("organizations", {
 		.primaryKey()
 		.$defaultFn(() => createId()),
 	name: text("name").notNull(),
-	descriptions: text("description")
+	description: text("description")
 });
