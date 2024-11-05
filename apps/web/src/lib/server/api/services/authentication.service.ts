@@ -4,32 +4,40 @@ import { BadRequest } from "../common/exceptions";
 import { Scrypt } from "lucia";
 import { UsersRepository } from "../repositories/users.repository";
 import { VolunteersRepository } from "../repositories/volunteers.repository";
+import { LoggerService } from "./logger.service";
 
 @injectable()
 export class AuthenticationService {
 	constructor(
 		@inject(LuciaService) private readonly luciaService: LuciaService,
 		@inject(UsersRepository) private readonly usersRepository: UsersRepository,
-		@inject(VolunteersRepository) private readonly volunteersRepository: VolunteersRepository
+		@inject(VolunteersRepository) private readonly volunteersRepository: VolunteersRepository,
+		@inject(LoggerService) private readonly loggerService: LoggerService
 	) {}
 
 	async login(email: string, password: string) {
+		this.loggerService.info("Logging in user", { email });
 		const existingUser = await this.usersRepository.findOneByEmail(email);
 
 		if (!existingUser || !existingUser?.hashedPassword) {
+			this.loggerService.error("Invalid email or password", { email });
+
 			throw BadRequest("Invalid email or password");
 		}
 
 		const validPassword = await new Scrypt().verify(existingUser.hashedPassword, password);
 
 		if (!validPassword) {
+			this.loggerService.error("Invalid email or password", { email });
+
 			throw BadRequest("Invalid email or password");
 		}
 
 		const session = await this.luciaService.lucia.createSession(existingUser.id, {});
-		const sessionCookie = this.luciaService.lucia.createSessionCookie(session.id);
 
-		return sessionCookie;
+		this.loggerService.info("Session cookie created", { email });
+
+		return session;
 	}
 
 	async register(email: string, password: string) {

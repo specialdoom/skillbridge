@@ -2,7 +2,7 @@ import { StatusCodes } from "$lib/constants/status-codes";
 import { fail, redirect, type Actions } from "@sveltejs/kit";
 
 export const actions: Actions = {
-	async default({ request, locals, cookies }) {
+	async default({ request, locals }) {
 		const formData = await request.formData();
 		const email = formData.get("email")?.toString();
 		const password = formData.get("password")?.toString();
@@ -24,7 +24,7 @@ export const actions: Actions = {
 
 		if (error) {
 			return fail(StatusCodes.BAD_REQUEST, {
-				error: error?.error?.issues[0].message
+				error
 			});
 		}
 
@@ -34,10 +34,6 @@ export const actions: Actions = {
 			});
 		}
 
-		console.log('[login action] setting session');
-
-		cookies.set('session_id', data.sessionCookie.value, { path: '/' });
-
-		return redirect(StatusCodes.SEE_OTHER, '/');
+		return redirect(StatusCodes.SEE_OTHER, "/");
 	}
 };
