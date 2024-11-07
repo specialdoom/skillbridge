@@ -2,8 +2,8 @@
 	import NavMain from "./nav-main.svelte";
 	import NavUser from "./nav-user.svelte";
 	import TeamSwitcher from "./team-switcher.svelte";
-	import * as Sidebar from "$components/sidebar";
 	import type { ComponentProps } from "svelte";
+	import * as Sidebar from "@skillbridge/ui/sidebar";
 
 	let {
 		ref = $bindable(null),
