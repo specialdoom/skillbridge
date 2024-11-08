@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { AuthenticationService } from "../services/authentication.service";
-import { Controler } from "../common/types/controller";
+import { Controller } from "../common/types/controller";
 import { zValidator } from "@hono/zod-validator";
 import { registerDto } from "../dtos/register.dto";
 import { loginDto } from "../dtos/login.dto";
@@ -12,7 +12,7 @@ import { LuciaService } from "../services/lucia.service";
 import { UsersService } from "../services/users.service";
 
 @injectable()
-export class AuthenticationController extends Controler {
+export class AuthenticationController extends Controller {
 	constructor(
 		@inject(AuthenticationService) private authenticationService: AuthenticationService,
 		@inject(LuciaService) private luciaService: LuciaService,
@@ -29,9 +29,9 @@ export class AuthenticationController extends Controler {
 
 				const user = c.var.user;
 
-				const { email } = await this.usersService.findOneById(user.id);
+				const { email, role } = await this.usersService.findOneById(user.id);
 
-				return c.json({ email });
+				return c.json({ email, role });
 			})
 			.post("/login", zValidator("json", loginDto), async (c) => {
 				const { email, password } = c.req.valid("json");

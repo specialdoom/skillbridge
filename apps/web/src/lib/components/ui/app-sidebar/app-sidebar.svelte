@@ -18,6 +18,9 @@
 		<TeamSwitcher teams={[]} />
 	</Sidebar.Header>
 	<Sidebar.Content>
+		{#if user.role === "manager"}
+			Manager
+		{/if}
 		<NavMain />
 	</Sidebar.Content>
 	<Sidebar.Footer>

@@ -1,6 +1,6 @@
-import { ApiClient } from '$lib/server/api';
-import { parseApiResponse } from '$lib/utils/api';
-import type { User } from 'lucia';
+import { ApiClient } from "$lib/server/api";
+import { parseApiResponse } from "$lib/utils/api";
+import type { User } from "lucia";
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
@@ -8,7 +8,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			api: ApiClient['api'];
+			api: ApiClient["api"];
 			parseApiResponse: typeof parseApiResponse;
 			getAuthedUser: () => Promise<Returned<User> | null>;
 			getAuthedUserOrThrow: (redirectTo: string) => Promise<Returned<User>>;
@@ -19,3 +19,6 @@ declare global {
 }
 
 export {};
+
+declare module "@event-calendar/core";
+declare module "@event-calendar/day-grid";

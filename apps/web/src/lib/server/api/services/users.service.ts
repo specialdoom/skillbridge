@@ -8,4 +8,8 @@ export class UsersService {
 	findOneById(id: string) {
 		return this.usersRepository.findOneByIdOrThrow(id);
 	}
+
+	findOneByEmail(email: string) {
+		return this.usersRepository.findOneByEmail(email);
+	}
 }
