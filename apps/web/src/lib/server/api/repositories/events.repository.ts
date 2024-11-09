@@ -1,8 +1,9 @@
 import { inject, injectable } from "tsyringe";
 import { DrizzleService } from "../services/drizzle.service";
-import type { InferInsertModel } from "drizzle-orm";
+import { eq, type InferInsertModel } from "drizzle-orm";
 import { eventsTable } from "../database/postgres/tables/events.table";
 import { takeFirstOrThrow } from "../common/utils/repository";
+import { registrationsTable } from "../database/postgres/tables/registrations.table";
 
 export type Create = InferInsertModel<typeof eventsTable>;
 
@@ -16,5 +17,18 @@ export class EventsRepository {
 
 	async findAll(db = this.drizzle.db) {
 		return db.query.eventsTable.findMany();
+	}
+
+	async findByUser(userId: string, db = this.drizzle.db) {
+		return await db
+			.select({
+				id: eventsTable.id,
+				name: eventsTable.name,
+				startDate: eventsTable.startDate,
+				endDate: eventsTable.endDate
+			})
+			.from(eventsTable)
+			.rightJoin(registrationsTable, eq(registrationsTable.eventId, eventsTable.id))
+			.where(eq(registrationsTable.userId, userId));
 	}
 }

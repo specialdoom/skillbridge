@@ -12,4 +12,8 @@ export class EventsService {
 	async findAll() {
 		return this.eventsRepository.findAll();
 	}
+
+	async findByUser(userId: string) {
+		return this.eventsRepository.findByUser(userId);
+	}
 }

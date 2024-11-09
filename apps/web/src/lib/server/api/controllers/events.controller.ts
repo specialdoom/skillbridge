@@ -14,6 +14,9 @@ export class EventsController extends Controller {
 	routes() {
 		return this.controller
 			.get("/", requireAuth, async (c) => c.json(await this.eventsService.findAll()))
+			.get("/user", requireAuth, async (c) =>
+				c.json(await this.eventsService.findByUser(c.var.user.id))
+			)
 			.post("/", requireAuth, zValidator("json", eventDto), async (c) => {
 				const { name, startDate, endDate, organizationId } = c.req.valid("json");
 
