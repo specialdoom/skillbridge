@@ -2,16 +2,23 @@
 	import Calendar from "@event-calendar/core";
 	import DayGrid from "@event-calendar/day-grid";
 
-	let { events }: { events: any[] } = $props();
+	let { events, onEventClick }: { events: any[]; onEventClick: (params: any) => {} } = $props();
 	let plugins = [DayGrid];
 
+	// TODO: map outside the component
 	let options = {
 		view: "dayGridMonth",
 		events: events.map((x) => ({
 			start: x.startDate,
 			end: x.endDate,
-			title: x.name
-		}))
+			title: x.name,
+			id: x.id,
+			description: x.description
+		})),
+		firstDay: 1,
+		eventClick: onEventClick,
+		eventMouseLeave: () => {},
+		eventMouseEnter: () => {}
 	};
 </script>
 

@@ -4,6 +4,8 @@
 	import TeamSwitcher from "./team-switcher.svelte";
 	import * as Sidebar from "$components/sidebar";
 	import type { ComponentProps } from "svelte";
+	import NavManager from "./nav-manager.svelte";
+	import GalleryVerticalEnd from "lucide-svelte/icons/gallery-vertical-end";
 
 	let {
 		ref = $bindable(null),
@@ -15,13 +17,13 @@
 
 <Sidebar.Root bind:ref {collapsible} {...restProps}>
 	<Sidebar.Header>
-		<TeamSwitcher teams={[]} />
+		<TeamSwitcher teams={[{ name: "Default", logo: GalleryVerticalEnd, plan: "Free" }]} />
 	</Sidebar.Header>
 	<Sidebar.Content>
-		{#if user.role === "manager"}
-			Manager
-		{/if}
 		<NavMain />
+		{#if user.role === "manager"}
+			<NavManager />
+		{/if}
 	</Sidebar.Content>
 	<Sidebar.Footer>
 		<NavUser {user} />

@@ -22,7 +22,7 @@ async function loadEvents({ locals }: PageServerLoadEvent): Promise<any[]> {
 }
 
 export const actions: Actions = {
-	async default({ request, locals }) {
+	async add({ request, locals }) {
 		const formData = await request.formData();
 
 		const name = formData.get("name")?.toString();
@@ -50,6 +50,32 @@ export const actions: Actions = {
 		if (error) {
 			return fail(StatusCodes.BAD_REQUEST, {
 				error: error.error.issues[0]?.message
+			});
+		}
+
+		return { success: true };
+	},
+	async apply({ request, locals }) {
+		const formData = await request.formData();
+		const eventId = formData.get("eventId")?.toString();
+
+		if (!eventId) {
+			return fail(StatusCodes.BAD_REQUEST, {
+				error: "Event id is required"
+			});
+		}
+
+		const { error } = await locals.api.registrations.apply[":eventId"]
+			.$post({
+				param: {
+					eventId
+				}
+			})
+			.then(locals.parseApiResponse);
+
+		if (error) {
+			return fail(StatusCodes.BAD_REQUEST, {
+				error
 			});
 		}
 

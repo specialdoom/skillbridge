@@ -6,6 +6,7 @@ import { AuthenticationController } from "./controllers/authentication.controlle
 import { validateAuthSession, verifyOrigin } from "./middlewares/auth.middleware";
 import { EventsController } from "./controllers/events.controller";
 import { OrganizationsController } from "./controllers/organizations.controller";
+import { RegistrationsController } from "./controllers/registrations.controller";
 
 /* -------------------------------------------------------------------------- */
 /*                                     App                                    */
@@ -24,7 +25,8 @@ const routes = app
 	.get("/healthcheck", (c) => c.text("Api working ✅!"))
 	.route("/auth", container.resolve(AuthenticationController).routes())
 	.route("/events", container.resolve(EventsController).routes())
-	.route("/organizations", container.resolve(OrganizationsController).routes());
+	.route("/organizations", container.resolve(OrganizationsController).routes())
+	.route("/registrations", container.resolve(RegistrationsController).routes());
 
 /* -------------------------------------------------------------------------- */
 /*                                   Exports                                  */
