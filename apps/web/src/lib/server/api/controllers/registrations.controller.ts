@@ -10,13 +10,17 @@ export class RegistrationsController extends Controller {
 	}
 
 	routes() {
-		return this.controller.post("/apply/:eventId", requireAuth, async (c) => {
-			const userId = c.var.user.id;
-			const eventId = c.req.param("eventId");
+		return this.controller
+			.get("/:eventId", requireAuth, async (c) =>
+				c.json(await this.registrationsService.findAllByEventId(c.req.param("eventId")))
+			)
+			.post("/apply/:eventId", requireAuth, async (c) => {
+				const userId = c.var.user.id;
+				const eventId = c.req.param("eventId");
 
-			await this.registrationsService.create(userId, eventId);
+				await this.registrationsService.create(userId, eventId);
 
-			return c.json({ message: "ok" });
-		});
+				return c.json({ message: "ok" });
+			});
 	}
 }

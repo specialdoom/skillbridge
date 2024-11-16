@@ -13,6 +13,10 @@ export class EventsService {
 		return this.eventsRepository.findAll();
 	}
 
+	async findById(id: string) {
+		return this.eventsRepository.findById(id);
+	}
+
 	async findByUser(userId: string) {
 		return this.eventsRepository.findByUser(userId);
 	}

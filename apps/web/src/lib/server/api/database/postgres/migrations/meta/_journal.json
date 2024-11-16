@@ -43,6 +43,13 @@
       "when": 1731143626818,
       "tag": "0005_lying_professor_monster",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1731338512581,
+      "tag": "0006_awesome_spitfire",
+      "breakpoints": true
     }
   ]
 }

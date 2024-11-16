@@ -16,7 +16,9 @@ async function loadOrganizations({ locals }: PageServerLoadEvent): Promise<any[]
 }
 
 async function loadEvents({ locals }: PageServerLoadEvent): Promise<any[]> {
-	const { data } = await locals.api.events.$get().then(locals.parseApiResponse);
+	const { data } = await locals.api.events.all.$get().then(locals.parseApiResponse);
+
+	console.log(data);
 
 	return data ?? [];
 }

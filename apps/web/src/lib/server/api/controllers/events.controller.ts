@@ -13,7 +13,10 @@ export class EventsController extends Controller {
 
 	routes() {
 		return this.controller
-			.get("/", requireAuth, async (c) => c.json(await this.eventsService.findAll()))
+			.get("/all", requireAuth, async (c) => c.json(await this.eventsService.findAll()))
+			.get("/one/:id", requireAuth, async (c) =>
+				c.json(await this.eventsService.findById(c.req.param("id")))
+			)
 			.get("/user", requireAuth, async (c) =>
 				c.json(await this.eventsService.findByUser(c.var.user.id))
 			)

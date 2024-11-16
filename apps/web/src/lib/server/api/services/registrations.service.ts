@@ -16,6 +16,10 @@ export class RegistrationsService {
 		return this.registrationsRepository.create({ userId, eventId });
 	}
 
+	async findAllByEventId(eventId: string) {
+		return await this.registrationsRepository.findAllByEventId(eventId);
+	}
+
 	private async checkRegistration(userId: string, eventId: string) {
 		const registration = await this.registrationsRepository.findByUserIdAndEventId(userId, eventId);
 
