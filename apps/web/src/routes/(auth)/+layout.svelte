@@ -6,10 +6,10 @@
 	{@render children()}
 </div>
 
-<style>
+<!-- <style>
 	div {
 		background: url("bg.jpg");
 		background-size: cover;
 		background-position: center top;
 	}
-</style>
+</style> -->

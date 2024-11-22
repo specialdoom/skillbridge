@@ -1,4 +1,5 @@
 import { StatusCodes } from "$lib/constants/status-codes";
+import { UserRole } from "$lib/shared/models/role";
 import { fail, redirect, type Actions } from "@sveltejs/kit";
 
 export const actions: Actions = {
@@ -46,7 +47,7 @@ export const actions: Actions = {
 					password,
 					firstName,
 					lastName,
-					role: "manager"
+					role: UserRole.Manager
 				}
 			})
 			.then(locals.parseApiResponse);

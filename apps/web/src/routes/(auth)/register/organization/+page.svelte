@@ -1,60 +1,43 @@
 <script lang="ts">
-	import { Button } from "$components/button";
-	import * as Card from "$components/card";
-	import { Input } from "$components/input";
-	import { Label } from "$components/label";
-	import CircleAlert from "lucide-svelte/icons/circle-alert";
-	import * as Alert from "$components/alert";
+	import { enhance } from "$app/forms";
+	import { Text, Note, Button, Input, Textarea, Description } from "kampsy-ui";
 
 	let { form } = $props();
+	let formRef: HTMLFormElement | null = $state(null);
 </script>
 
-	<Card.Root class="mx-auto max-w-sm">
-		<Card.Header>
-			<Card.Title class="text-2xl">Register</Card.Title>
-			<Card.Description>Enter your details below to register your account</Card.Description>
-			{#if form?.error}
-				<Alert.Root variant="destructive">
-					<CircleAlert class="size-4" />
-					<Alert.Description>{form.error}</Alert.Description>
-				</Alert.Root>
-			{/if}
-		</Card.Header>
-
-		<Card.Content>
-			<form class="grid gap-4" method="POST">
-				<div class="grid gap-2">
-					<Label for="name">Name</Label>
-					<Input id="name" placeholder="Meta" required name="name" />
-				</div>
-				<div class="grid gap-2">
-					<Label for="description">Description (optional)</Label>
-					<Input id="description" name="description" />
-				</div>
-				<div class="grid gap-2">
-					<Label for="email">Manager e-mail</Label>
-					<Input id="email" type="email" placeholder="m@example.com" required name="email" />
-					<span>This will also create an account with the specified email</span>
-				</div>
-				<div class="grid gap-2">
-					<div class="flex items-center">
-						<Label for="password">Password</Label>
-					</div>
-					<Input id="password" type="password" required name="password" />
-				</div>
-				<div class="grid gap-2">
-					<div class="flex items-center">
-						<Label for="confirmPassword">Confirm password</Label>
-					</div>
-					<Input id="confirmPassword" type="password" required name="confirmPassword" />
-				</div>
-				<Button type="submit" class="w-full">Register</Button>
-				<Button variant="outline" class="w-full" disabled>Register with Google (Coming soon)</Button
-				>
-			</form>
-			<div class="mt-4 text-center text-sm">
-				Already registered an organization?
-				<a href="/login" class="underline"> Login </a>
-			</div>
-		</Card.Content>
-	</Card.Root>
+<form class="grid h-fit w-1/3 gap-4" method="POST" bind:this={formRef} use:enhance>
+	<Text size={32}>Register your organization</Text>
+	{#if form?.error}
+		<Note fill type="error">{form.error}.</Note>
+	{/if}
+	<div class="grid gap-2">
+		<Description content="Details about your organization" title="Organization details" />
+		<Input id="name" placeholder="Organization name" name="name" />
+		<Textarea
+			id="description"
+			placeholder="Description for your organization (optional)"
+			name="description"
+		/>
+	</div>
+	<Description content="Details about manager" title="Organization's manager details" />
+	<div class="grid gap-2">
+		<Input id="email" type="email" placeholder="Manager email" name="email" />
+	</div>
+	<div class="grid gap-2">
+		<Input id="firstName" placeholder="Manager first name" name="firstName" />
+	</div>
+	<div class="grid gap-2">
+		<Input id="lastName" placeholder="Manager last name" name="lastName" />
+	</div>
+	<div class="grid grid-cols-2 gap-2">
+		<Input id="password" type="password" placeholder="Password" name="password" />
+		<Input
+			id="confirmPassword"
+			type="password"
+			placeholder="Confirm password"
+			name="confirmPassword"
+		/>
+	</div>
+	<Button onclick={() => formRef?.requestSubmit()}>Register</Button>
+</form>

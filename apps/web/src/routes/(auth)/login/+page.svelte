@@ -1,46 +1,38 @@
 <script lang="ts">
-	import { Button } from "$components/button";
-	import * as Card from "$components/card";
-	import { Input } from "$components/input";
-	import { Label } from "$components/label";
-	import CircleAlert from "lucide-svelte/icons/circle-alert";
-	import * as Alert from "$components/alert";
+	import { enhance } from "$app/forms";
+	import { Input, Button, Text, Note } from "kampsy-ui";
+	import { LogoFacebook } from "kampsy-ui/icons";
 
 	let { form } = $props();
+	let formRef: HTMLFormElement | null = $state(null);
 </script>
 
-<Card.Root class="mx-auto max-w-sm">
-	<Card.Header>
-		<Card.Title class="text-2xl">Login</Card.Title>
-		<Card.Description>Enter your email below to login to your account</Card.Description>
-		{#if form?.error}
-			<Alert.Root variant="destructive">
-				<CircleAlert class="size-4" />
-				<Alert.Description>{form.error}</Alert.Description>
-			</Alert.Root>
-		{/if}
-	</Card.Header>
-	<Card.Content>
-		<form class="grid gap-4" method="POST">
+<div class="h-full w-full">
+	<div class="flex h-[calc(100%-100px)] w-full items-center justify-center">
+		<form class="grid h-fit w-1/3 gap-4" method="POST" bind:this={formRef} use:enhance>
+			<Text size={32}>Login to skillbridge</Text>
+			{#if form?.error}
+				<Note fill type="error">{form.error}.</Note>
+			{/if}
+			<Button disabled prefix={LogoFacebook}>Continue with Facebook (Coming soon)</Button>
+			<hr />
 			<div class="grid gap-2">
-				<Label for="email">Email</Label>
-				<Input id="email" type="email" placeholder="m@example.com" required name="email" />
+				<Input id="email" type="email" placeholder="Email" name="email" />
 			</div>
 			<div class="grid gap-2">
-				<div class="flex items-center">
-					<Label for="password">Password</Label>
-					<a href="##" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
-				</div>
-				<Input id="password" type="password" required name="password" />
+				<Input id="password" type="password" placeholder="Password" name="password" />
 			</div>
-			<Button type="submit" class="w-full">Login</Button>
-			<Button variant="outline" class="w-full" disabled>Login with Google (Coming soon)</Button>
+			<Button onclick={() => formRef?.requestSubmit()}>Login</Button>
 		</form>
-		<div class="mt-4 text-center text-sm">
+	</div>
+	<div class="flex h-[100px] w-full flex-col items-center justify-center border-t p-4">
+		<div>
 			Are you a volunteer?
 			<a href="/register/volunteer" class="underline"> Register here</a>
+		</div>
+		<div>
 			Register an organization?
 			<a href="/register/organization" class="underline"> Register here</a>
 		</div>
-	</Card.Content>
-</Card.Root>
+	</div>
+</div>

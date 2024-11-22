@@ -109,6 +109,9 @@ importers:
       eslint:
         specifier: 9.14.0
         version: 9.14.0(jiti@1.21.6)
+      kampsy-ui:
+        specifier: ^1.1.0
+        version: 1.1.0(svelte@5.1.9)
       lucide-svelte:
         specifier: 0.454.0
         version: 0.454.0(svelte@5.1.9)
@@ -1866,6 +1869,11 @@ packages:
 
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
+
+  kampsy-ui@1.1.0:
+    resolution: {integrity: sha512-oMS4RqudDKxGeocEgSv6LH28klHTUEZa55Dux0PUIECHrMrW5IYWDmcA/Ik/cJlsWLm6aPCzBNzMW95i1GyJkw==}
+    peerDependencies:
+      svelte: ^5.0.0-next.1
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -4402,6 +4410,10 @@ snapshots:
   jsonfile@4.0.0:
     optionalDependencies:
       graceful-fs: 4.2.11
+
+  kampsy-ui@1.1.0(svelte@5.1.9):
+    dependencies:
+      svelte: 5.1.9
 
   keyv@4.5.4:
     dependencies:
