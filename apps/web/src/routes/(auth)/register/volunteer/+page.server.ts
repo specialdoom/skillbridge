@@ -8,6 +8,14 @@ export const actions: Actions = {
 		const email = formData.get("email")?.toString();
 		const password = formData.get("password")?.toString();
 		const confirmPassword = formData.get("confirmPassword");
+		const firstName = formData.get("firstName")?.toString();
+		const lastName = formData.get("lastName")?.toString();
+
+		if (!firstName || !lastName) {
+			return fail(StatusCodes.BAD_REQUEST, {
+				error: "First and last name are required"
+			});
+		}
 
 		if (!email || !password) {
 			return fail(StatusCodes.BAD_REQUEST, {
@@ -21,11 +29,13 @@ export const actions: Actions = {
 			});
 		}
 
-		const { error } = await locals.api.auth.register.volunteer
+		const { error } = await locals.api.auth.register
 			.$post({
 				json: {
 					email,
-					password
+					password,
+					firstName,
+					lastName
 				}
 			})
 			.then(locals.parseApiResponse);

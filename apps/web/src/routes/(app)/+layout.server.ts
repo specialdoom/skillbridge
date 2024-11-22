@@ -7,7 +7,13 @@ export const load = async (event: LayoutServerLoadEvent) => {
 };
 
 async function loadUser({ locals }: LayoutServerLoadEvent) {
+	// TODO: change to use users controller
 	const { data } = await locals.api.auth.me.$get().then(locals.parseApiResponse);
 
-	return { email: data?.email ?? "", role: data?.role ?? "" };
+	return {
+		email: data?.email ?? "",
+		role: data?.role ?? "",
+		firstName: data?.firstName ?? "",
+		lastName: data?.lastName ?? ""
+	};
 }

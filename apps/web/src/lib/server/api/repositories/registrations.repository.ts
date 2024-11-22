@@ -7,6 +7,7 @@ import { eq, and } from "drizzle-orm";
 import { usersTable } from "../database/postgres/tables";
 
 type Create = InferInsertModel<typeof registrationsTable>;
+type Update = Pick<Create, "status">;
 
 @injectable()
 export class RegistrationsRepository {
@@ -24,9 +25,19 @@ export class RegistrationsRepository {
 			.then(takeFirst);
 	}
 
-	async findAllByEventId(eventId: string, db = this.drizzle.db) {
+	async update(registrationId: string, data: Update, db = this.drizzle.db) {
 		return await db
+			.update(registrationsTable)
+			.set(data)
+			.where(eq(registrationsTable.id, registrationId))
+			.returning()
+			.then(takeFirstOrThrow);
+	}
+
+	async findAllByEventId(eventId: string, filter?: Update["status"], db = this.drizzle.db) {
+		const fullJoin = db
 			.select({
+				id: registrationsTable.id,
 				firstName: usersTable.firstName,
 				lastName: usersTable.lastName,
 				email: usersTable.email,
@@ -34,7 +45,14 @@ export class RegistrationsRepository {
 				status: registrationsTable.status
 			})
 			.from(registrationsTable)
-			.fullJoin(usersTable, eq(usersTable.id, registrationsTable.userId))
-			.where(eq(registrationsTable.eventId, eventId));
+			.fullJoin(usersTable, eq(usersTable.id, registrationsTable.userId));
+
+		if (filter !== undefined) {
+			return await fullJoin.where(
+				and(eq(registrationsTable.eventId, eventId), eq(registrationsTable.status, filter))
+			);
+		}
+
+		return await fullJoin.where(eq(registrationsTable.eventId, eventId));
 	}
 }

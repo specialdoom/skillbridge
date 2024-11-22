@@ -23,7 +23,12 @@
 			{/each}
 		</div>
 		<div class="bg-muted/50 aspect-video rounded-xl">Tasks</div>
-		<div class="bg-muted/50 aspect-video rounded-xl">New volunteers</div>
+		<div class="bg-muted/50 aspect-video rounded-xl">
+			New volunteers
+			{#each data.newVolunteers as newVolunteer, i (i)}
+				<p>{newVolunteer.firstName} {newVolunteer.lastName}</p>
+			{/each}
+		</div>
 	</div>
 	<div class="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min"></div>
 </div>

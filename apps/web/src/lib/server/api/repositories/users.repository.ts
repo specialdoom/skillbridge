@@ -1,8 +1,8 @@
-import { inject, injectable } from 'tsyringe';
-import { usersTable } from '../database/postgres/tables';
-import { eq, type InferInsertModel } from 'drizzle-orm';
-import { takeFirstOrThrow } from '../common/utils/repository';
-import { DrizzleService } from '../services/drizzle.service';
+import { inject, injectable } from "tsyringe";
+import { usersTable } from "../database/postgres/tables";
+import { eq, gt, and, type InferInsertModel } from "drizzle-orm";
+import { takeFirstOrThrow } from "../common/utils/repository";
+import { DrizzleService } from "../services/drizzle.service";
 
 export type Create = InferInsertModel<typeof usersTable>;
 export type Update = Partial<Create>;
@@ -19,7 +19,7 @@ export class UsersRepository {
 
 	async findOneByIdOrThrow(id: string, db = this.drizzle.db) {
 		const user = await this.findOneById(id, db);
-		if (!user) throw Error('User not found');
+		if (!user) throw Error("User not found");
 		return user;
 	}
 
@@ -41,4 +41,23 @@ export class UsersRepository {
 			.returning()
 			.then(takeFirstOrThrow);
 	}
+
+	async findNew(role: "volunteer" | "manager", db = this.drizzle.db) {
+		return db
+			.select({
+				id: usersTable.id,
+				firstName: usersTable.firstName,
+				lastName: usersTable.lastName,
+				email: usersTable.email
+			})
+			.from(usersTable)
+			.where(and(eq(usersTable.role, role), gt(usersTable.createdAt, getMonday(Date.now()))));
+	}
+}
+
+function getMonday(value: number) {
+	const d = new Date(value);
+	var day = d.getDay(),
+		diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+	return new Date(d.setDate(diff));
 }

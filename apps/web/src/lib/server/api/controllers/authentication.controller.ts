@@ -29,9 +29,9 @@ export class AuthenticationController extends Controller {
 
 				const user = c.var.user;
 
-				const { email, role } = await this.usersService.findOneById(user.id);
+				const { email, role, firstName, lastName } = await this.usersService.findOneById(user.id);
 
-				return c.json({ email, role });
+				return c.json({ email, role, firstName, lastName });
 			})
 			.post("/login", zValidator("json", loginDto), async (c) => {
 				const { email, password } = c.req.valid("json");
@@ -52,11 +52,14 @@ export class AuthenticationController extends Controller {
 				return c.json({ message: "ok" });
 			})
 			.post("/register", zValidator("json", registerDto), async (c) => {
-				const { email, password } = c.req.valid("json");
-				const role = c.req.query("role") as "volunteer" | "manager";
-
-				console.log("[auth controller] registering user with role", { role });
-				const user = await this.authenticationService.register(email, password, role);
+				const { email, password, firstName, lastName, role } = c.req.valid("json");
+				const user = await this.authenticationService.register(
+					email,
+					password,
+					firstName,
+					lastName,
+					role
+				);
 
 				return c.json({ user });
 			})

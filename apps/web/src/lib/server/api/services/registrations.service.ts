@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { RegistrationsRepository } from "../repositories/registrations.repository";
 import { BadRequest } from "../common/exceptions";
+import type { RegistrationStatus } from "$lib/shared/models/registration";
 
 @injectable()
 export class RegistrationsService {
@@ -16,8 +17,24 @@ export class RegistrationsService {
 		return this.registrationsRepository.create({ userId, eventId });
 	}
 
-	async findAllByEventId(eventId: string) {
-		return await this.registrationsRepository.findAllByEventId(eventId);
+	async findAllByEventId(eventId: string, filter?: RegistrationStatus) {
+		if (!filter || !["pending", "approved", "rejected", "target"].includes(filter)) {
+			throw BadRequest("Invalid filter");
+		}
+
+		return await this.registrationsRepository.findAllByEventId(eventId, filter);
+	}
+
+	async update(registrationId: string, status: RegistrationStatus) {
+		return await this.registrationsRepository.update(registrationId, { status });
+	}
+
+	async approve(registrationId: string) {
+		return await this.registrationsRepository.update(registrationId, { status: "approved" });
+	}
+
+	async reject(registrationId: string) {
+		return await this.registrationsRepository.update(registrationId, { status: "rejected" });
 	}
 
 	private async checkRegistration(userId: string, eventId: string) {

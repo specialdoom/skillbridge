@@ -10,6 +10,14 @@ export const actions: Actions = {
 		const description = formData.get("description")?.toString();
 		const password = formData.get("password")?.toString();
 		const confirmPassword = formData.get("confirmPassword");
+		const firstName = formData.get("firstName")?.toString();
+		const lastName = formData.get("lastName")?.toString();
+
+		if (!firstName || !lastName) {
+			return fail(StatusCodes.BAD_REQUEST, {
+				error: "First and last name are required"
+			});
+		}
 
 		if (!name) {
 			return fail(StatusCodes.BAD_REQUEST, {
@@ -31,14 +39,14 @@ export const actions: Actions = {
 
 		const { error } = await locals.api.auth.register
 			.$post({
-				query: {
-					role: "manager"
-				},
 				json: {
 					name,
 					description,
 					email,
-					password
+					password,
+					firstName,
+					lastName,
+					role: "manager"
 				}
 			})
 			.then(locals.parseApiResponse);

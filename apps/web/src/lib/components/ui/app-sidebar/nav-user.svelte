@@ -6,6 +6,7 @@
 	import { useSidebar } from '$components/sidebar';
 	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
 	import LogOut from 'lucide-svelte/icons/log-out';
+	import Bolt from "lucide-svelte/icons/bolt";
 
 	let { user }: { user: any } = $props();
 
@@ -50,6 +51,14 @@
 						</div>
 					</div>
 				</DropdownMenu.Label>
+				<DropdownMenu.Item
+					onclick={async () => {
+						await goto('/profile');
+					}}
+				>
+					<Bolt />
+					Profile
+				</DropdownMenu.Item>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item
 					onclick={async () => {

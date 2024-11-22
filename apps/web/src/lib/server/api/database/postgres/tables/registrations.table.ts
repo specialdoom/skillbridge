@@ -16,6 +16,6 @@ export const registrationsTable = pgTable("registrations", {
 	eventId: text("event_id")
 		.notNull()
 		.references(() => eventsTable.id),
-	status: statusEnum().default("pending"),
+	status: statusEnum().notNull().default("pending"),
 	...timestamps
 });

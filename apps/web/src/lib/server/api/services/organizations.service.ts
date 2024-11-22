@@ -11,4 +11,5 @@ export class OrganizationsService {
 	async findByUserId(userId: string) {
 		return this.organizationsRepository.findByUserId(userId);
 	}
+
 }

@@ -44,6 +44,8 @@ export class AuthenticationService {
 	async register(
 		email: string,
 		password: string,
+		firstName: string,
+		lastName: string,
 		role: "volunteer" | "manager",
 		name: string = "",
 		description: string = ""
@@ -67,9 +69,14 @@ export class AuthenticationService {
 			organizationId = organization.id;
 		}
 
+		console.log("firstName", firstName);
+		console.log("lastName", lastName);
+
 		const user = await this.usersRepository.create({
 			email,
 			hashedPassword,
+			firstName,
+			lastName,
 			role,
 			organizationId
 		});
