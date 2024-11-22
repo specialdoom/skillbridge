@@ -7,6 +7,7 @@
 	import * as Dialog from "$components/dialog";
 	import { Input } from "$components/input";
 	import { Label } from "$components/label";
+	import { UserRole } from "$lib/shared/models/role.js";
 	import Calendar from "lucide-svelte/icons/calendar";
 	import CircleAlert from "lucide-svelte/icons/circle-alert";
 	import MapPin from "lucide-svelte/icons/map-pin";
@@ -87,7 +88,7 @@
 		</Dialog.Content>
 	</Dialog.Root>
 {/if}
-{#if $user.role === "volunteer"}
+{#if $user.role === UserRole.Volunteer}
 	<Dialog.Root bind:open>
 		<Dialog.Content class="w-full max-w-3xl">
 			<Dialog.Header>

@@ -3,6 +3,8 @@ import { usersTable } from "../database/postgres/tables";
 import { eq, gt, and, type InferInsertModel } from "drizzle-orm";
 import { takeFirstOrThrow } from "../common/utils/repository";
 import { DrizzleService } from "../services/drizzle.service";
+import { getMonday } from "../common/utils/date";
+import type { UserRole } from "$lib/shared/models/role";
 
 export type Create = InferInsertModel<typeof usersTable>;
 export type Update = Partial<Create>;
@@ -42,7 +44,7 @@ export class UsersRepository {
 			.then(takeFirstOrThrow);
 	}
 
-	async findNew(role: "volunteer" | "manager", db = this.drizzle.db) {
+	async findNew(role: UserRole, db = this.drizzle.db) {
 		return db
 			.select({
 				id: usersTable.id,
@@ -53,11 +55,4 @@ export class UsersRepository {
 			.from(usersTable)
 			.where(and(eq(usersTable.role, role), gt(usersTable.createdAt, getMonday(Date.now()))));
 	}
-}
-
-function getMonday(value: number) {
-	const d = new Date(value);
-	var day = d.getDay(),
-		diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-	return new Date(d.setDate(diff));
 }

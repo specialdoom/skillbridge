@@ -4,7 +4,7 @@ import { requireAuth } from "../middlewares/require-auth.middleware";
 import { zValidator } from "@hono/zod-validator";
 import { UsersService } from "../services/users.service";
 import { userDto } from "../dtos/user.dto";
-import { BadRequest } from "../common/exceptions";
+import { UserRole } from "$lib/shared/models/role";
 
 @injectable()
 export class UsersController extends Controller {
@@ -22,7 +22,7 @@ export class UsersController extends Controller {
 				return c.json({ message: "ok" });
 			})
 			.get("/volunteers/new", requireAuth, async (c) => {
-				return c.json(await this.usersService.findNewUsers("volunteer"));
+				return c.json(await this.usersService.findNewUsers(UserRole.Volunteer));
 			});
 	}
 }

@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { UsersRepository } from "../repositories/users.repository";
+import type { UserRole } from "$lib/shared/models/role";
 
 @injectable()
 export class UsersService {
@@ -13,7 +14,7 @@ export class UsersService {
 		return this.usersRepository.findOneByEmail(email);
 	}
 
-	findNewUsers(role: "volunteer" | "manager") {
+	findNewUsers(role: UserRole) {
 		return this.usersRepository.findNew(role);
 	}
 

@@ -5,6 +5,7 @@ import { Scrypt } from "lucia";
 import { UsersRepository } from "../repositories/users.repository";
 import { OrganizationsRepository } from "../repositories/organization.repository";
 import { LoggerService } from "./logger.service";
+import { UserRole } from "$lib/shared/models/role";
 
 @injectable()
 export class AuthenticationService {
@@ -46,7 +47,7 @@ export class AuthenticationService {
 		password: string,
 		firstName: string,
 		lastName: string,
-		role: "volunteer" | "manager",
+		role: UserRole,
 		name: string = "",
 		description: string = ""
 	) {
@@ -60,7 +61,7 @@ export class AuthenticationService {
 
 		let organizationId: string | null = null;
 
-		if (role === "manager") {
+		if (role === UserRole.Manager) {
 			const organization = await this.organizationsRepository.create({
 				name,
 				description

@@ -1,3 +1,4 @@
+import { UserRole } from "$lib/shared/models/role";
 import { z } from "zod";
 
 export const registerDto = z.object({
@@ -7,7 +8,7 @@ export const registerDto = z.object({
 	lastName: z.string(),
 	name: z.string().optional(),
 	description: z.string().optional(),
-	role: z.enum(["volunteer", "manager"]).default("volunteer")
+	role: z.enum([UserRole.Volunteer, UserRole.Manager]).default(UserRole.Volunteer)
 });
 
 export type RegisterDto = z.infer<typeof registerDto>;
