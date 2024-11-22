@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist&family=Geist+Mono&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.geist-mono-400 {
+  font-family: "Geist Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+ 
+.geist-400 {
+  font-family: "Geist", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}

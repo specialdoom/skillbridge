@@ -1,18 +1,11 @@
 <script lang="ts">
-	import * as Breadcrumb from "$components/breadcrumb";
-	import { Separator } from "$components/separator";
-	import * as Sidebar from "$components/sidebar";
-	import AppSidebar from "$components/app-sidebar/app-sidebar.svelte";
-	import { ModeWatcher } from "mode-watcher";
-	import ModeSwitcher from "$components/mode-switcher/mode-switcher.svelte";
 	import { setContext, type Snippet } from "svelte";
 	import type { LayoutData } from "./$types";
-	import { page } from "$app/stores";
 	import { writable } from "svelte/store";
+	import { Menu, ThemeSwitcher } from "kampsy-ui";
+	import { MoreHorizontal } from "kampsy-ui/icons";
 
 	const { data, children }: { children: Snippet; data: LayoutData } = $props();
-
-	let breadcrumbs = $derived($page.url.pathname.split("/").filter((x) => x !== ""));
 
 	const user = writable(data.user);
 	$effect.pre(() => {
@@ -22,35 +15,38 @@
 	setContext("user", user);
 </script>
 
-<ModeWatcher />
-
-<Sidebar.Provider>
-	<AppSidebar user={data.user} />
-	<Sidebar.Inset>
-		<header
-			class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
-		>
-			<div class="flex items-center gap-2 px-4">
-				<Sidebar.Trigger class="-ml-1" />
-				<Separator orientation="vertical" class="mr-2 h-4" />
-				<Breadcrumb.Root>
-					<Breadcrumb.List>
-						{#each breadcrumbs as breadcrumb, i}
-							<Breadcrumb.Item class="hidden md:block">
-								<Breadcrumb.Link href="/{breadcrumb}">{breadcrumb}</Breadcrumb.Link>
-							</Breadcrumb.Item>
-							{#if i !== breadcrumbs.length - 1}
-								<Breadcrumb.Separator />
-							{/if}
-						{/each}
-					</Breadcrumb.List>
-				</Breadcrumb.Root>
-				<Separator orientation="vertical" class="mr-2 h-4" />
-				<ModeSwitcher />
-			</div>
-		</header>
-		<div class="flex flex-1 flex-col gap-4 p-4 pt-0">
-			{@render children()}
+<div class="min-h-vh bg-kui-light-bg-secondary dark:bg-kui-dark-bg-secondary">
+	<header class="bg-kui-light-bg dark:bg-kui-dark-bg flex h-16 w-full justify-between p-4">
+		<a class="flex items-center gap-2" href="/">
+			<img src="icon.png" class="h-[40px]" alt="logo" />
+			<span class="geist-mono-400">skillbridge</span>
+		</a>
+		<nav class="flex w-fit gap-4">
+			<ThemeSwitcher />
+			<Menu.Root alignment="right">
+				<Menu.Button aria-label="Menu" shape="square" size="small" type="secondary">
+					<div class="h-[16px] w-[16px]">
+						<MoreHorizontal />
+					</div>
+				</Menu.Button>
+				<Menu.Content class="w-[200px]">
+					<Menu.Link href="/profile">Profile</Menu.Link>
+					<hr class="my-2" />
+					<Menu.Link href="/logout">Logout</Menu.Link>
+				</Menu.Content>
+			</Menu.Root>
+		</nav>
+	</header>
+	<nav
+		class="bg-kui-light-bg dark:bg-kui-dark-bg border-kui-light-gray-200 dark:border-kui-dark-gray-400 flex h-8 w-full border-b"
+	>
+		<div class="flex h-full w-full items-center gap-4 px-4">
+			<a href="/dashboard">Dashboard</a>
+			<a href="/events">Events</a>
+			<a href="/profile">Settings</a>
 		</div>
-	</Sidebar.Inset>
-</Sidebar.Provider>
+	</nav>
+	<main>
+		{@render children()}
+	</main>
+</div>
