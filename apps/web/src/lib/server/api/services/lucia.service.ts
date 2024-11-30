@@ -20,7 +20,6 @@ export class LuciaService {
 				},
 				expires: true
 			},
-			sessionExpiresIn: new TimeSpan(30, "m"),
 			getUserAttributes: (attributes) => {
 				return {
 					...attributes

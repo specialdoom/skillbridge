@@ -2,7 +2,7 @@ import { boolean, pgEnum, pgTable, text, varchar } from "drizzle-orm/pg-core";
 import { timestamps } from "../../../common/utils/table";
 import { createId } from "@paralleldrive/cuid2";
 import { organizationsTable } from "./organizations.table";
-import { UserRole } from "$lib/shared/models/role";
+import { UserRole } from "../../../../../shared/models/role";
 
 export const roleEnum = pgEnum("role", [UserRole.Volunteer, UserRole.Manager]);
 

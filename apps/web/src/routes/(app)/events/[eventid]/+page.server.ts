@@ -6,9 +6,7 @@ import type { PageServerLoadEvent } from "./$types";
 export const load = async (event: PageServerLoadEvent) => {
 	return {
 		event: await loadEvent(event),
-		registrations: await loadRegistrations(event, RegistrationStatus.Approved),
-		pendingRegistrations: await loadRegistrations(event, RegistrationStatus.Pending),
-		rejectedRegistrations: await loadRegistrations(event, RegistrationStatus.Rejected)
+		registrations: await loadRegistrations(event)
 	};
 };
 
@@ -29,8 +27,6 @@ export const actions = {
 				error: "Registration id is required"
 			});
 		}
-
-		console.log(status);
 
 		await locals.api.registrations.update[":registrationId"].$patch({
 			param: { registrationId },

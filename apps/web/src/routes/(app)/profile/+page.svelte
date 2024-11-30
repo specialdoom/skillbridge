@@ -13,6 +13,34 @@
 		class="bg-kui-light-bg dark:bg-kui-dark-bg border-kui-light-gray-200 dark:border-kui-dark-gray-400 overflow-hidden rounded-xl border"
 	>
 		<div class="flex w-full flex-col gap-2 gap-4 overflow-x-auto p-4 lg:p-6">
+			<Text size={24}>Skills</Text>
+			<Text size={14}>
+				Manage your skills to be able to participate in events that require them.
+			</Text>
+			<div class="flex w-96 items-center gap-2">
+				<Input name="tag" placeholder="Add a skill" />
+				<Button type="secondary">Add</Button>
+			</div>
+		</div>
+		<footer
+			class="bg-kui-light-bg-secondary dark:bg-kui-dark-bg-secondary border-kui-light-gray-200 dark:border-kui-dark-gray-400 h-[48px] w-full border-t"
+		>
+			<div class="flex h-full w-full flex-wrap items-center justify-between gap-4 px-4">
+				<Text size={14}>
+					The skills will be used across the entire platform to easily find events that might be
+					relevant to you.
+				</Text>
+			</div>
+		</footer>
+	</div>
+</div>
+<div
+	class="flex max-w-[1220px] flex-col pt-8 md:mx-auto min-[1200px]:mt-0 min-[1200px]:grid min-[1200px]:grid-cols-[1fr]"
+>
+	<div
+		class="bg-kui-light-bg dark:bg-kui-dark-bg border-kui-light-gray-200 dark:border-kui-dark-gray-400 overflow-hidden rounded-xl border"
+	>
+		<div class="flex w-full flex-col gap-2 gap-4 overflow-x-auto p-4 lg:p-6">
 			<Text size={24}>Email</Text>
 			<Text size={14}>
 				This is the email address you use to log in within <code>skillbridge</code>.

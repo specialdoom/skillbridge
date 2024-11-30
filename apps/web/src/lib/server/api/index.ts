@@ -8,6 +8,7 @@ import { EventsController } from "./controllers/events.controller";
 import { OrganizationsController } from "./controllers/organizations.controller";
 import { RegistrationsController } from "./controllers/registrations.controller";
 import { UsersController } from "./controllers/users.controller";
+import { SkillsController } from "./controllers/skills.controller";
 
 /* -------------------------------------------------------------------------- */
 /*                                     App                                    */
@@ -28,7 +29,8 @@ const routes = app
 	.route("/events", container.resolve(EventsController).routes())
 	.route("/organizations", container.resolve(OrganizationsController).routes())
 	.route("/registrations", container.resolve(RegistrationsController).routes())
-	.route("/users", container.resolve(UsersController).routes());
+	.route("/users", container.resolve(UsersController).routes())
+	.route("/skills", container.resolve(SkillsController).routes());
 
 /* -------------------------------------------------------------------------- */
 /*                                   Exports                                  */

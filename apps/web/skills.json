@@ -1,0 +1,87 @@
+[
+	{
+		"skill": "Communication",
+		"description": "Effective verbal and written communication skills.",
+		"examples": ["Public speaking", "Presentation skills", "Active listening"]
+	},
+	{
+		"skill": "Time Management",
+		"description": "Ability to prioritize tasks and meet deadlines.",
+		"examples": ["Project management", "Time tracking", "Scheduling"]
+	},
+	{
+		"skill": "Problem-Solving",
+		"description": "Creative thinking and finding solutions to challenges.",
+		"examples": ["Critical thinking", "Decision making", "Root cause analysis"]
+	},
+	{
+		"skill": "Teamwork",
+		"description": "Collaborating effectively with diverse groups.",
+		"examples": ["Team building", "Conflict resolution", "Collaboration tools"]
+	},
+	{
+		"skill": "Adaptability",
+		"description": "Flexibility to adjust to changing circumstances.",
+		"examples": ["Change management", "Resilience", "Agile methodologies"]
+	},
+	{
+		"skill": "Language Skills",
+		"description": "Fluency in multiple languages.",
+		"examples": ["English", "Spanish", "French"]
+	},
+	{
+		"skill": "Technical Skills",
+		"description": "Proficiency in software, hardware, or digital tools.",
+		"examples": ["Programming", "Web development", "Data analysis"]
+	},
+	{
+		"skill": "Organizational Skills",
+		"description": "Planning, coordinating, and executing events or projects.",
+		"examples": ["Event planning", "Project management", "Logistics"]
+	},
+	{
+		"skill": "Creative Skills",
+		"description": "Artistic abilities, writing, or design skills.",
+		"examples": ["Graphic design", "Content writing", "Video editing"]
+	},
+	{
+		"skill": "Interpersonal Skills",
+		"description": "Empathy, active listening, and conflict resolution.",
+		"examples": ["Empathy", "Active listening", "Conflict resolution"]
+	},
+	{
+		"skill": "Leadership Skills",
+		"description": "Inspiring and motivating others.",
+		"examples": ["Mentoring", "Coaching", "Team leadership"]
+	},
+	{
+		"skill": "Teaching Skills",
+		"description": "Ability to impart knowledge and skills to others.",
+		"examples": ["Tutoring", "Training", "Workshop facilitation"]
+	},
+	{
+		"skill": "Community Engagement",
+		"description": "Building relationships with community members.",
+		"examples": ["Community outreach", "Volunteer coordination", "Networking"]
+	},
+	{
+		"skill": "Fundraising",
+		"description": "Soliciting donations and grants.",
+		"examples": ["Grant writing", "Crowdfunding", "Donor relations"]
+	},
+	{
+		"skill": "Outreach",
+		"description": "Promoting volunteer opportunities and recruiting volunteers.",
+		"examples": ["Social media marketing", "Email campaigns", "Public relations"]
+	},
+	{
+		"skill": "Event Planning",
+		"description": "Organizing and executing events.",
+		"examples": ["Event logistics", "Event marketing", "Event budgeting"]
+	},
+	{
+		"skill": "Mentoring",
+		"description": "Guiding and supporting individuals.",
+		"examples": ["Career counseling", "Life coaching", "Mentorship programs"]
+	}
+]

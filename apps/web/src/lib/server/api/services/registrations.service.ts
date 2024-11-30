@@ -18,7 +18,7 @@ export class RegistrationsService {
 	}
 
 	async findAllByEventId(eventId: string, filter?: RegistrationStatus) {
-		if (!filter || !["pending", "approved", "rejected", "target"].includes(filter)) {
+		if (filter && !["pending", "approved", "rejected", "target"].includes(filter)) {
 			throw BadRequest("Invalid filter");
 		}
 
