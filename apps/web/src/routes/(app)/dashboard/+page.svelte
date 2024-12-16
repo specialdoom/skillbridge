@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Authorization from "$lib/components/authorization.svelte";
-	import { SearchInput, Switch, Text } from "kampsy-ui";
+	import { SearchInput, Switch, Text } from "@skillbridge/kampsy-ui";
 	let { data } = $props();
 </script>
 
@@ -25,10 +25,6 @@
 			>
 				<div class="flex w-full flex-col gap-2 gap-4 overflow-x-auto p-4 lg:p-6">
 					<Text size={24}>{event.name}</Text>
-
-					<Authorization>
-						<a href="/events/{event.id}">View event</a>
-					</Authorization>
 				</div>
 			</div>
 		{/each}

@@ -3,7 +3,7 @@ import { pgTable, text } from "drizzle-orm/pg-core";
 import { usersTable } from "./users.table";
 import { skillsTable } from "./skills.table";
 
-export const userSkills = pgTable("userSkills", {
+export const userSkillsTable = pgTable("userSkills", {
 	id: text("id")
 		.primaryKey()
 		.$defaultFn(() => createId()),

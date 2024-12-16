@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Text } from "kampsy-ui";
+	import { Text } from "@skillbridge/kampsy-ui";
 
 	let { title, centered = false } = $props();
 </script>

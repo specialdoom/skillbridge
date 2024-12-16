@@ -1,8 +1,27 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
 	import Wrapper from "$lib/components/wrapper.svelte";
-	import { Button, Input, Text } from "kampsy-ui";
+	import { Badge, Button, Choicebox, Input, Modal, Text } from "@skillbridge/kampsy-ui";
 
-	let { data } = $props();
+	let { data, form } = $props();
+
+	let selectedSkills = $state([]);
+	let active = $state(false);
+
+	let unselectedSkills = $derived(
+		data.skills.filter((skill) => !data.userSkills.find((s) => s.id === skill.id))
+	);
+
+	const badgeVariants: ("green-subtle" | "blue-subtle" | "purple-subtle" | "teal-subtle")[] = [
+		"green-subtle",
+		"blue-subtle",
+		"purple-subtle",
+		"teal-subtle"
+	];
+
+	function openSkillsModal() {
+		active = true;
+	}
 </script>
 
 <Wrapper title="Profile" />
@@ -17,9 +36,29 @@
 			<Text size={14}>
 				Manage your skills to be able to participate in events that require them.
 			</Text>
-			<div class="flex w-96 items-center gap-2">
-				<Input name="tag" placeholder="Add a skill" />
-				<Button type="secondary">Add</Button>
+
+			{#if form}
+				{form.error}
+			{/if}
+
+			<div class="flex flex-wrap gap-2">
+				{#each data.userSkills as userSkill, i}
+					<Badge variant={badgeVariants[i % 4]}>
+						{userSkill.name}
+					</Badge>
+				{/each}
+			</div>
+			<div class="flex flex-col gap-4">
+				{#if selectedSkills.length > 0}
+					<Text>Selected skills (unsaved):</Text>
+				{/if}
+				<div class="flex flex-wrap gap-2">
+					{#each selectedSkills as id}
+						{@const skill = data.skills.find((x) => x.id === id)}
+						<Badge>{skill?.name}</Badge>
+					{/each}
+				</div>
+				<Button onclick={openSkillsModal} class="w-[200px]">Select new skills</Button>
 			</div>
 		</div>
 		<footer
@@ -30,6 +69,21 @@
 					The skills will be used across the entire platform to easily find events that might be
 					relevant to you.
 				</Text>
+				<form
+					method="POST"
+					action="?/userSkills"
+					use:enhance={() => {
+						return async ({ update }) => {
+							selectedSkills = [];
+							await update();
+						};
+					}}
+				>
+					{#each selectedSkills as skill}
+						<input type="hidden" name="skillIds" value={skill} />
+					{/each}
+					<button type="submit">Save</button>
+				</form>
 			</div>
 		</footer>
 	</div>
@@ -85,3 +139,32 @@
 		</footer>
 	</div>
 </div>
+
+<Modal.Root bind:active>
+	<Modal.Content class="w-[700px]">
+		<Modal.Body>
+			<Modal.Header>
+				<Modal.Title>Select skills</Modal.Title>
+				<Modal.Subtitle>PLACEHOLDER</Modal.Subtitle>
+			</Modal.Header>
+			<Choicebox.Group label="Select a skill" type="checkbox" bind:value={selectedSkills}>
+				<div class="grid gap-2 md:grid-cols-3">
+					{#each unselectedSkills as skill}
+						<Choicebox.Item
+							title={skill.name}
+							value={skill.id}
+							onclick={() => console.log("click")}
+						/>
+					{/each}
+				</div>
+			</Choicebox.Group>
+		</Modal.Body>
+		<Modal.Footer>
+			<Button onclick={() => (active = false)} variant="secondary">Cancel</Button>
+			{#if selectedSkills.length > 0}
+				<Badge variant="amber-subtle">{selectedSkills.length}</Badge>
+			{/if}
+			<Button onclick={() => (active = false)}>Submit</Button>
+		</Modal.Footer>
+	</Modal.Content>
+</Modal.Root>

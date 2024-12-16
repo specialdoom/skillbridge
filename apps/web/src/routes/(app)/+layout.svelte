@@ -2,8 +2,8 @@
 	import { setContext, type Snippet } from "svelte";
 	import type { LayoutData } from "./$types";
 	import { writable } from "svelte/store";
-	import { Button, Menu, Tabs, ThemeSwitcher } from "kampsy-ui";
-	import { MoreHorizontal } from "kampsy-ui/icons";
+	import { Avatar, Button, ThemeSwitcher } from "@skillbridge/kampsy-ui";
+	import { goto } from "$app/navigation";
 
 	const { data, children }: { children: Snippet; data: LayoutData } = $props();
 	const user = writable(data.user);
@@ -13,6 +13,10 @@
 	});
 
 	setContext("user", user);
+
+	async function logout() {
+		await goto("/logout");
+	}
 </script>
 
 <div class="min-h-vh bg-kui-light-bg-secondary dark:bg-kui-dark-bg-secondary">
@@ -23,22 +27,16 @@
 		</a>
 		<nav class="flex w-fit gap-4">
 			<ThemeSwitcher />
-			<Menu.Root alignment="right">
-				<Menu.Button aria-label="Menu" shape="square" size="small" type="secondary">
-					<div class="h-[16px] w-[16px]">
-						<MoreHorizontal />
-					</div>
-				</Menu.Button>
-				<Menu.Content class="w-[200px]">
-					<Menu.Link href="/profile">Profile</Menu.Link>
-					<hr class="my-2" />
-					<Menu.Link href="/logout">Logout</Menu.Link>
-				</Menu.Content>
-			</Menu.Root>
+			<div class="w-max-[200px] flex w-fit items-center gap-2">
+				<Avatar placeholder />
+				{$user.firstName}
+				{$user.lastName}
+			</div>
+			<Button size="small" rounded onclick={logout}>Logout</Button>
 		</nav>
 	</header>
 	<nav
-		class="bg-kui-light-bg dark:bg-kui-dark-bg border-kui-light-gray-200 dark:border-kui-dark-gray-400 flex h-12 w-full border-b "
+		class="bg-kui-light-bg dark:bg-kui-dark-bg border-kui-light-gray-200 dark:border-kui-dark-gray-400 flex h-12 w-full border-b"
 	>
 		<div class="flex h-full w-full items-center gap-4 px-4">
 			<a

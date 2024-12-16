@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
-	import { Input, Button, Text, Note } from "kampsy-ui";
-	import { LogoFacebook } from "kampsy-ui/icons";
+	import { Input, Button, Text, Note } from "@skillbridge/kampsy-ui";
+	import { LogoFacebook } from "@skillbridge/kampsy-ui/icons";
 
 	let { form } = $props();
 	let formRef: HTMLFormElement | null = $state(null);

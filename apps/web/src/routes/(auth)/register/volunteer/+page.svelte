@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
-	import { Text, Note, Button, Input } from "kampsy-ui";
+	import { Text, Note, Button, Input } from "@skillbridge/kampsy-ui";
 
 	let { form } = $props();
 	let formRef: HTMLFormElement | null = $state(null);

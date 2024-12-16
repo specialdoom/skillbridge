@@ -5,6 +5,7 @@ import { requireAuth } from "../middlewares/require-auth.middleware";
 import { zValidator } from "@hono/zod-validator";
 import { skillGroupDto } from "../dtos/skill-group.dto";
 import { skillDto } from "../dtos/skill.dto";
+import { userSkillDto } from "../dtos/user-skill.dto";
 
 @injectable()
 export class SkillsController extends Controller {
@@ -26,6 +27,20 @@ export class SkillsController extends Controller {
 				const { name, skillGroupId } = c.req.valid("json");
 
 				return c.json(await this.skillsService.createSkill(name, skillGroupId));
+			})
+			.get("/all", requireAuth, async (c) => {
+				const search = c.req.query("search") ?? "";
+
+				return c.json(await this.skillsService.findAll(search));
+			})
+			.get("/user/all", requireAuth, async (c) => {
+				return c.json(await this.skillsService.findAllByUserId(c.var.user.id));
+			})
+			.post("/user/add", requireAuth, zValidator("json", userSkillDto), async (c) => {
+				const skillsIds = c.req.valid("json").skillsIds;
+				const userId = c.var.user.id;
+
+				return c.json(await this.skillsService.addSkill(userId, skillsIds));
 			});
 	}
 }

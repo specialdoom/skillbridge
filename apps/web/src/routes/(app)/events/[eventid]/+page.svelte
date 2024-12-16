@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Wrapper from "$lib/components/wrapper.svelte";
 	import { RegistrationStatus } from "$lib/shared/models/registration";
-	import { Menu, Pagination, SearchInput, Select, StatusDot, Text } from "kampsy-ui";
-	import { Accessibility, MoreHorizontal } from "kampsy-ui/icons";
+	import { Menu, Pagination, SearchInput, Select, StatusDot, Text } from "@skillbridge/kampsy-ui";
+	import { Accessibility, MoreHorizontal } from "@skillbridge/kampsy-ui/icons";
 
 	let { data } = $props();
 
