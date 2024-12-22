@@ -5,7 +5,7 @@ import { sequence } from "@sveltejs/kit/hooks";
 import type { ApiRoutes } from "$lib/server/api";
 import { parseApiResponse } from "$lib/utils/api";
 import { StatusCodes } from "$lib/constants/status-codes";
-import { isApiRoute, isAuthRoute } from "$lib/server/api/common/utils/route";
+import { isApiRoute, isAppRoute, isAuthRoute } from "$lib/server/api/common/utils/route";
 
 const apiClient: Handle = async ({ event, resolve }) => {
 	/* ------------------------------ Register api ------------------------------ */
@@ -26,16 +26,17 @@ const apiClient: Handle = async ({ event, resolve }) => {
 };
 
 const session: Handle = async ({ event, resolve }) => {
-	if (isApiRoute(event.route.id) || isAuthRoute(event.route.id)) {
-		return await resolve(event);
-	}
-	const { data } = await event.locals.api.auth.verify.$post().then(parseApiResponse);
+	if (isApiRoute(event.route.id) || isAppRoute(event.route.id)) {
+		const { data } = await event.locals.api.auth.verify.$post().then(parseApiResponse);
 
-	if (!data?.success) {
-		throw redirect(StatusCodes.TEMPORARY_REDIRECT, "/login");
+		if (!data?.success) {
+			throw redirect(StatusCodes.TEMPORARY_REDIRECT, "/login");
+		}
+
+		return await resolve(event);
 	}
 
 	return await resolve(event);
 };
 
-export const handle = sequence(apiClient, session);
+export const handle = sequence(apiClient);

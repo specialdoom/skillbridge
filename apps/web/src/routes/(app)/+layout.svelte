@@ -2,8 +2,10 @@
 	import { setContext, type Snippet } from "svelte";
 	import type { LayoutData } from "./$types";
 	import { writable } from "svelte/store";
-	import { Avatar, Button, ThemeSwitcher } from "@skillbridge/kampsy-ui";
 	import { goto } from "$app/navigation";
+	import { Button } from "$components/button";
+	import * as Avatar from "$components/avatar/index.js";
+	import * as DropdownMenu from "$components/dropdown-menu/index.js";
 
 	const { data, children }: { children: Snippet; data: LayoutData } = $props();
 	const user = writable(data.user);
@@ -26,13 +28,32 @@
 			<span class="geist-mono-400">skillbridge</span>
 		</a>
 		<nav class="flex w-fit gap-4">
-			<ThemeSwitcher />
 			<div class="w-max-[200px] flex w-fit items-center gap-2">
-				<Avatar placeholder />
-				{$user.firstName}
-				{$user.lastName}
+				<DropdownMenu.Root>
+					<DropdownMenu.Trigger>
+						<Button variant="ghost" class="relative h-8 w-8 rounded-full">
+							<Avatar.Root class="h-8 w-8">
+								<Avatar.Image src="/avatar1.png" alt="@shadcn" />
+								<Avatar.Fallback>SC</Avatar.Fallback>
+							</Avatar.Root>
+						</Button>
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Content class="w-56" align="end">
+						<DropdownMenu.Label class="font-normal">
+							<div class="flex flex-col space-y-1">
+								<p class="text-sm font-medium leading-none">{$user.firstName} {$user.lastName}</p>
+								<p class="text-muted-foreground text-xs leading-none">{$user.email}</p>
+							</div>
+						</DropdownMenu.Label>
+						<DropdownMenu.Separator />
+						<DropdownMenu.Group>
+							<DropdownMenu.Item>Settings</DropdownMenu.Item>
+						</DropdownMenu.Group>
+						<DropdownMenu.Separator />
+						<DropdownMenu.Item>Log out</DropdownMenu.Item>
+					</DropdownMenu.Content>
+				</DropdownMenu.Root>
 			</div>
-			<Button size="small" rounded onclick={logout}>Logout</Button>
 		</nav>
 	</header>
 	<nav

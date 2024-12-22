@@ -1,38 +1,47 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
-	import { Input, Button, Text, Note } from "@skillbridge/kampsy-ui";
-	import { LogoFacebook } from "@skillbridge/kampsy-ui/icons";
-
-	let { form } = $props();
-	let formRef: HTMLFormElement | null = $state(null);
+	import { Button } from "$components/button";
+	import LoginForm from "$lib/components/feature/loginform.svelte";
+	
+	let { data } = $props();
 </script>
 
-<div class="h-full w-full">
-	<div class="flex h-[calc(100%-100px)] w-full items-center justify-center">
-		<form class="grid h-fit w-1/3 gap-4" method="POST" bind:this={formRef} use:enhance>
-			<Text size={32}>Login to skillbridge</Text>
-			{#if form?.error}
-				<Note fill type="error">{form.error}.</Note>
-			{/if}
-			<Button disabled prefix={LogoFacebook}>Continue with Facebook (Coming soon)</Button>
-			<hr />
-			<div class="grid gap-2">
-				<Input id="email" type="email" placeholder="Email" name="email" />
-			</div>
-			<div class="grid gap-2">
-				<Input id="password" type="password" placeholder="Password" name="password" />
-			</div>
-			<Button onclick={() => formRef?.requestSubmit()}>Login</Button>
-		</form>
-	</div>
-	<div class="flex h-[100px] w-full flex-col items-center justify-center border-t p-4">
-		<div>
-			Are you a volunteer?
-			<a href="/register/volunteer" class="underline"> Register here</a>
+<div
+	class="container relative hidden h-full flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0"
+>
+	<Button href="/register" variant="ghost" class="absolute right-4 top-4 md:right-8 md:top-8">
+		Register
+	</Button>
+	<div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r">
+		<div
+			class="absolute inset-0 bg-cover"
+			style:background-image="url(https://images.unsplash.com/photo-1590069261209-f8e9b8642343?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1376&q=80)"
+		></div>
+		<div class="relative z-20 flex items-center text-lg font-medium">skillbridge</div>
+		<div class="relative z-20 mt-auto">
+			<blockquote class="space-y-2">
+				<p class="text-lg">&ldquo;It is not enough to be compassionate. You must act.&rdquo;</p>
+				<footer class="text-sm">Dalai Lama</footer>
+			</blockquote>
 		</div>
-		<div>
-			Register an organization?
-			<a href="/register/organization" class="underline"> Register here</a>
+	</div>
+	<div class="lg:p-8">
+		<div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+			<div class="flex flex-col space-y-2 text-center">
+				<h1 class="text-2xl font-semibold tracking-tight">Authenticate into skillbridge app</h1>
+				<p class="text-muted-foreground text-sm">Enter your credentils below</p>
+			</div>
+			<LoginForm data={data.form} />
+			<p class="text-muted-foreground px-8 text-center text-sm">
+				By clicking continue, you agree to our
+				<a href="/terms" class="hover:text-primary underline underline-offset-4">
+					Terms of Service
+				</a>
+				and
+				<a href="/privacy" class="hover:text-primary underline underline-offset-4">
+					Privacy Policy
+				</a>
+				.
+			</p>
 		</div>
 	</div>
 </div>

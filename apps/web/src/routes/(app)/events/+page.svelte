@@ -1,7 +1,10 @@
 <script lang="ts">
+	// @ts-ignore: ts not supported yet
 	import Calendar from "@event-calendar/core";
+	// @ts-ignore: ts not supported yet
 	import DayGrid from "@event-calendar/day-grid";
-	import { Button, Modal, StatusDot } from "@skillbridge/kampsy-ui";
+	import * as Dialog from "$components/dialog/index.js";
+	import { Button } from "$components/button/index.js";
 
 	let { data } = $props();
 	const plugins = [DayGrid];
@@ -54,41 +57,41 @@
 	<Calendar {plugins} {options} />
 </div>
 
-<Modal.Root bind:active>
-	<Modal.Content class="w-[800px]">
-		<Modal.Body>
-			<Modal.Header>
-				<Modal.Title>Register to the event</Modal.Title>
-			</Modal.Header>
-			<div class="flex w-full gap-4">
-				<img
-					src="https://images.unsplash.com/photo-1603604342747-b285bb892e2f?q=80&w=2673&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-					alt="test"
-					class="w-[300px]"
-				/>
-				<div class="flex flex-1 flex-col gap-4">
-					<dl>
-						<dt class="text-kui-light-gray-900 dark:text-kui-dark-gray-900">Name</dt>
-						<dd>{selectedEvent?.name}</dd>
-					</dl>
-					<dl>
-						<dt class="text-kui-light-gray-900 dark:text-kui-dark-gray-900">Description</dt>
-						<dd>{selectedEvent?.description ?? "There is no description for this event"}</dd>
-					</dl>
-					<dl>
-						<dt class="text-kui-light-gray-900 dark:text-kui-dark-gray-900">Status</dt>
-						<dd class="flex gap-2"><StatusDot state="READY" /> Ready</dd>
-					</dl>
-					<dl>
-						<dt class="text-kui-light-gray-900 dark:text-kui-dark-gray-900">Date</dt>
-						<dd class="flex gap-2">{selectedEvent?.startDate}</dd>
-					</dl>
-				</div>
+<Dialog.Root bind:open={active}>
+	<Dialog.Content>
+		<Dialog.Header>
+			<Dialog.Title>Register to the event</Dialog.Title>
+			<Dialog.Description>
+				Register to the event to get notified when the event starts
+			</Dialog.Description>
+		</Dialog.Header>
+		<div class="flex w-full gap-4">
+			<img
+				src="https://images.unsplash.com/photo-1603604342747-b285bb892e2f?q=80&w=2673&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+				alt="test"
+				class="w-[300px]"
+			/>
+			<div class="flex flex-1 flex-col gap-4">
+				<dl>
+					<dt class="text-kui-light-gray-900 dark:text-kui-dark-gray-900">Name</dt>
+					<dd>{selectedEvent?.name}</dd>
+				</dl>
+				<dl>
+					<dt class="text-kui-light-gray-900 dark:text-kui-dark-gray-900">Description</dt>
+					<dd>{selectedEvent?.description ?? "There is no description for this event"}</dd>
+				</dl>
+				<dl>
+					<dt class="text-kui-light-gray-900 dark:text-kui-dark-gray-900">Status</dt>
+					<dd class="flex gap-2">Ready</dd>
+				</dl>
+				<dl>
+					<dt class="text-kui-light-gray-900 dark:text-kui-dark-gray-900">Date</dt>
+					<dd class="flex gap-2">{selectedEvent?.startDate}</dd>
+				</dl>
 			</div>
-		</Modal.Body>
-		<Modal.Footer>
-			<Button onclick={cancelRegistration} type="secondary">Cancel</Button>
-			<Button onclick={() => (active = false)}>Register</Button>
-		</Modal.Footer>
-	</Modal.Content>
-</Modal.Root>
+		</div>
+		<Dialog.Footer>
+			<Button type="submit">Register</Button>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>

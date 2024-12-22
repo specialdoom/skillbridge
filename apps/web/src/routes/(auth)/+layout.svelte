@@ -5,11 +5,3 @@
 <div class="flex h-screen w-full items-center justify-center px-4">
 	{@render children()}
 </div>
-
-<!-- <style>
-	div {
-		background: url("bg.jpg");
-		background-size: cover;
-		background-position: center top;
-	}
-</style> -->
